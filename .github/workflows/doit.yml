@@ -1,0 +1,15 @@
+name: Confluence Label Lifecycle Manager
+
+on:
+  # "At minute 0 past hour 10, 12, 14, 16, and 18 on every day-of-week from Tuesday through Friday."
+  schedule:
+    - cron: '0 10,12,14,16,18 * * 2-5'
+
+jobs:
+  doit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+      - run: pip install -r requirements.txt
+      - run: python main.py -u ${{ secrets.lifecycle_manager_username }} -p ${{ secrets.lifecycle_manager_password  }} --updatepage --max 2500
